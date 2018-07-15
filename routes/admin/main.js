@@ -10,9 +10,7 @@ next();
 router.get('/',function(req,res){
     res.render('admin/index');  //
 });
-router.get('/dashboard',function(req,res){
-    res.render('admin/dashboard');  //
-});
+
 
 
 module.exports=router;

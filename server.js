@@ -4,8 +4,21 @@ const path =require('path');
 const exphbs= require('express-handlebars');
 const home= require('./routes/home/main');
 const admin= require('./routes/admin/main');
+const posts = require('./routes/admin/posts');
+const mongoose = require('mongoose');
+
+
+moongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=>{
+    console.log('mongo connected');
+}).catch(error=>console.log(error));
+
+
+
+
+
 app.use('/',home);
 app.use('/admin',admin);
+app.use('/admin/posts',posts);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configuration of handlebars
