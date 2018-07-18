@@ -1,7 +1,7 @@
 const express=require('express');
 const router = express.Router();
 const Post = require('../../models/Posts');
-
+const{isEmpty} = require('../../helpers/upload-helpers');
 router.all('/*',function(req,res,next) {
     req.app.locals.layout = "admin"; // resetting defaultlayout to be admin when this route is run
     next();
@@ -58,6 +58,21 @@ res.redirect('/admin/posts');
     })
 
     router.post('/create', function (req, res) {
+      let filename='a.jpg';
+      if(!isEmpty(req.files)) {
+          let file = req.files.file;
+          filename = file.name;
+          file.mv('./public/uploads' + filename, (err) => {
+              if (err) throw err;
+          });
+      }
+
+
+
+
+
+
+
         let allowComments = true;
         if (req.body.allowComments) {
             allowComments = true;
@@ -81,6 +96,7 @@ res.redirect('/admin/posts');
         }).catch(error => {
             console.log("could not save post");
         })
-    })
+    });
 
-    module.exports = router
+        module.exports = router
+

@@ -20,6 +20,9 @@ type:Boolean,
     body:{
 type:String,
         require:true
+    },
+    file:{
+        type:String
     }
 
 });

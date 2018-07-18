@@ -8,6 +8,8 @@ const posts = require('./routes/admin/posts');
 const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
 const methodOverride= require('method-override');
+const upload = require('express-fileupload');
+
 
 mongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=>{
     console.log('mongo connected');
@@ -19,7 +21,7 @@ app.use(bodyParser.json());
 
 app.use(methodOverride('_method'));
 
-
+app.use(upload());
 
 app.use('/',home);
 app.use('/admin',admin);
