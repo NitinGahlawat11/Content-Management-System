@@ -6,14 +6,15 @@ const home= require('./routes/home/main');
 const admin= require('./routes/admin/main');
 const posts = require('./routes/admin/posts');
 const mongoose = require('mongoose');
+const bodyParser= require('body-parser');
 
-
-moongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=>{
+mongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=>{
     console.log('mongo connected');
 }).catch(error=>console.log(error));
 
 
-
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 
 app.use('/',home);

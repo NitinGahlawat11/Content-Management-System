@@ -1,0 +1,30 @@
+<h1>it works
+</h1>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Status</th>
+    <th>Allow Comments</th>
+
+    </tr>
+
+    </thead>
+<tbody>
+{{#each posts}} {{!#each function is a kind of for loop in handlebars and we loop through the array and fetch each individual entry--}}
+<tr>
+    <td>{{id}}</td>
+    <td>{{title}}</td>
+    <td>{{status}}</td>
+    <td>{{allowComments}}</td>
+    <td><a href="admin/posts/edit{{id}}"  class=" btn btn-info">Edit</a> </td>
+
+</tr>
+{{/each}}
+</tbody>
+
+
+
+</table>
