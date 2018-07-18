@@ -7,6 +7,7 @@ const admin= require('./routes/admin/main');
 const posts = require('./routes/admin/posts');
 const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
+const methodOverride= require('method-override');
 
 mongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=>{
     console.log('mongo connected');
@@ -15,6 +16,9 @@ mongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+
+app.use(methodOverride('_method'));
+
 
 
 app.use('/',home);
