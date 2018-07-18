@@ -46,6 +46,12 @@ router.put('/edit/:id',function(req,res) {
     })
 });
 
+router.delete("/:id",function(req,res){
+    Post.remove({_id: req.params.id}).then(result => {
+res.redirect('/admin/posts');
+    });
+});
+
 
     router.get('/create', function (req, res) {
         res.render('admin/posts/create');
