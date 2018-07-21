@@ -9,7 +9,8 @@ const mongoose = require('mongoose');
 const bodyParser= require('body-parser');
 const methodOverride= require('method-override');
 const upload = require('express-fileupload');
-
+const flash = require('connect-flash');
+const session=require('express-session');
 
 mongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=>{
     console.log('mongo connected');
@@ -23,13 +24,29 @@ app.use(methodOverride('_method'));
 
 app.use(upload());
 
+const{select} =require('./helpers/handlebars-helpers');
+
+app.use(session({
+    secret:'ilovecoding',
+    resave:true,
+    saveUninitialized:true
+}));
+app.use(flash());
+
+// setting a local variable for success flash message
+app.use(function(req,res,next){
+res.locals.success_message=req.flash('success_message');
+//res.locals.delete_message=req.flash('delete_message');
+next();
+});
+
 app.use('/',home);
 app.use('/admin',admin);
 app.use('/admin/posts',posts);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configuration of handlebars
-app.engine('handlebars',exphbs({defaultLayout:'home'})); // by default hbs is gonna look into views directory and in layouts folder
+app.engine('handlebars',exphbs({defaultLayout:'home',helpers:{select:select}})); // by default hbs is gonna look into views directory and in layouts folder
 app.set('view engine','handlebars');
 
 
