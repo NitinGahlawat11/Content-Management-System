@@ -5,6 +5,7 @@
     <thead>
     <tr>
         <th>Id</th>
+        <th>Image</th>
         <th>Title</th>
         <th>Status</th>
     <th>Allow Comments</th>
@@ -16,6 +17,8 @@
 {{#each posts}} {{!#each function is a kind of for loop in handlebars and we loop through the array and fetch each individual entry--}}
 <tr>
     <td>{{id}}</td>
+    <td> <img  height="50" src="/uploads/{{file}}"> </td>
+
     <td>{{title}}</td>
     <td>{{status}}</td>
     <td>{{allowComments}}</td>
