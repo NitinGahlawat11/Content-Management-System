@@ -23,6 +23,10 @@ type:String,
     },
     file:{
         type:String
+    },
+    date:{
+        type:Date,
+        default:Date.now()
     }
 
 });
