@@ -1,6 +1,7 @@
 const express=require('express');
 const router = express.Router();
 const Post = require('../../models/Posts');
+const Category= require('../../models/Category');
 const{isEmpty} = require('../../helpers/upload-helpers');
 router.all('/*',function(req,res,next) {
     req.app.locals.layout = "admin"; // resetting defaultlayout to be admin when this route is run
@@ -8,7 +9,10 @@ router.all('/*',function(req,res,next) {
 });
 
 router.get('/',function(req,res) {
-    Post.find({}).then(posts => {
+    Post.find({})
+        .populate('category') // to gett well formatted category
+        .then(posts => {
+
         res.render('admin/posts/index', {posts: posts});
     });
 
@@ -17,7 +21,10 @@ router.get('/',function(req,res) {
 
 router.get('/edit/:id',function(req,res){
     Post.findOne({_id:req.params.id}).then(post=>{
-        res.render('admin/posts/edit',{post:post});
+        Category.find({}).then(categories=>{
+            res.render('admin/posts/edit',{post:post,categories:categories});
+        })
+
     })
 
 
@@ -36,6 +43,7 @@ router.put('/edit/:id',function(req,res) {
         post.status = req.body.status;
         post.allowComments = allowComments;
         post.body = req.body.body;
+        post.category=req.body.category;
 // data coming from database    // data coming from form
 
         if (!isEmpty(req.files)) {
@@ -68,7 +76,11 @@ router.delete("/:id",function(req,res){
 
 
 router.get('/create', function (req, res) {
-    res.render('admin/posts/create');
+ Category.find({}).then(categories=>{
+     res.render('admin/posts/create',{categories:categories});
+    });
+
+
 })
 
 router.post('/create', function (req, res) {
@@ -107,7 +119,8 @@ router.post('/create', function (req, res) {
         status: req.body.status,
         allowComments: allowComments, // instead of passing values from from we pass them from above check becooz by default req.body.allowcomments is gonna return on instead of a boolean
         body: req.body.body,
-        file:filename
+        file:filename,
+        category:req.body.category // this second category is passed from the create form
 
 
     });

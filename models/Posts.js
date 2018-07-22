@@ -27,6 +27,11 @@ type:String,
     date:{
         type:Date,
         default:Date.now()
+    },
+    // relating category with post
+    category:{
+        type:Schema.Types.ObjectId,
+        ref:'categories'
     }
 
 });
