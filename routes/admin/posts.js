@@ -51,11 +51,19 @@ router.put('/edit/:id',function(req,res) {
             let file = req.files.file;
             filename = Date.now()+'-'+file.name;
            post.file=filename;
-            file.mv('./public/uploads' + filename, (err) => {
-                if (err) throw err;
+        //     file.mv('./public/uploads/' + filename, (err) => {
+        //         if (err) throw err;
+        //     });
+        //
+        //     console.log("is not empty")
+        //
+        // }
+            file.mv('./public/uploads/' + filename, (err)=>{
+
+                if(err) throw err;
+
             });
 
-            console.log("is not empty")
 
         }
 
@@ -89,22 +97,21 @@ router.post('/create', function (req, res) {
 
         let file = req.files.file;
         filename = Date.now()+'-'+file.name;
-        file.mv('./public/uploads' + filename, (err) => {
-            if (err) throw err;
+    //     file.mv('./public/uploads/' + filename, (err) => {
+    //         if (err) throw err;
+    //     });
+    //
+    //     console.log("is not empty")
+    //
+    // }
+        file.mv('./public/uploads/' + filename, (err)=>{
+
+            if(err) throw err;
+
         });
 
-        console.log("is not empty")
 
     }
-
-
-
-
-
-
-
-
-
     let allowComments = true;
     if (req.body.allowComments) {
         allowComments = true;
