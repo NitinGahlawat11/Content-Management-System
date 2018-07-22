@@ -3,6 +3,7 @@ const app= express();
 const path =require('path');
 const exphbs= require('express-handlebars');
 const home= require('./routes/home/main');
+const categories = require('./routes/admin/categories');
 const admin= require('./routes/admin/main');
 const posts = require('./routes/admin/posts');
 const mongoose = require('mongoose');
@@ -43,6 +44,7 @@ next();
 app.use('/',home);
 app.use('/admin',admin);
 app.use('/admin/posts',posts);
+app.use('/admin/categories',categories);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configuration of handlebars
