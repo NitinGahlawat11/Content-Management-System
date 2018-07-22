@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
 
 app.use(upload());
@@ -37,7 +37,7 @@ app.use(flash());
 // setting a local variable for success flash message
 app.use(function(req,res,next){
 res.locals.success_message=req.flash('success_message');
-//res.locals.delete_message=req.flash('delete_message');
+res.locals.error_message=req.flash('error_message');
 next();
 });
 
@@ -45,7 +45,7 @@ app.use('/',home);
 app.use('/admin',admin);
 app.use('/admin/posts',posts);
 app.use('/admin/categories',categories);
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 // configuration of handlebars
 app.engine('handlebars',exphbs({defaultLayout:'home',helpers:{select:select}})); // by default hbs is gonna look into views directory and in layouts folder

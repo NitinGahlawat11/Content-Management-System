@@ -25,7 +25,15 @@
 
 <!-- Page Content -->
 <div class="container">
+    {{#if errors}}
+        {{#each errors}}
+            <div class="alert alert-danger">
+                {{message}}
+            </div>
+        {{/each}}
 
+    {{/if}}
+    {{>home/form-msgs}}
     {{{body}}}  {{!this body specifies dynamic data}}
 
 </div>
