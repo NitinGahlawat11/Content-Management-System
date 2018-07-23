@@ -12,7 +12,7 @@ const methodOverride= require('method-override');
 const upload = require('express-fileupload');
 const flash = require('connect-flash');
 const session=require('express-session');
-
+const passport=require('passport');
 mongoose.connect('mongodb://localhost:27017/cms',{useMongoClient:true}).then(db=>{
     console.log('mongo connected');
 }).catch(error=>console.log(error));
@@ -33,9 +33,12 @@ app.use(session({
     saveUninitialized:true
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // setting a local variable for success flash message
 app.use(function(req,res,next){
+    res.locals.user= req.user||null // creating a local variable for the logged in user
 res.locals.success_message=req.flash('success_message');
 res.locals.error_message=req.flash('error_message');
 next();

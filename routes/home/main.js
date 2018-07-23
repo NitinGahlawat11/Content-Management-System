@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt= require('bcryptjs');
+const passport=require('passport');
+const LocalStrategy= require('passport-local').Strategy;
 const Post = require('../../models/Posts');
 const Category= require('../../models/Category');
 const User =require('../../models/User');
@@ -24,6 +26,98 @@ router.get('/about',function(req,res){
 router.get('/login',function(req,res){
     res.render('home/login');  //
 });
+
+// passport.use(new LocalStrategy({username:'email'},(email,password,done)=>{
+//     User.findOne({email:email}).then(user=>{
+//         if(!user) return done(null,false,{message:'No user found'});
+//         bcrypt.compare(password,user.password,(err,matched)=>{
+//             if (err) throw err;
+//             if (matched){
+//
+//                 return done (null,user);
+//             }
+//             else{
+//                 return done(null,false,{message:'invalid password'});
+//             }
+//         })
+//     })
+// }))
+// passport.serializeUser(function(user, done) {
+//     done(null, user.id);
+// });
+//
+// passport.deserializeUser(function(id, done) {
+//     User.findById(id, function(err, user) {
+//         done(err, user);
+//     });
+// });
+passport.use(new LocalStrategy({usernameField: 'email'}, (email, password, done)=>{
+
+    User.findOne({email: email}).then(user=>{
+
+        if(!user) return done(null, false, {message: 'No user found'});
+
+        bcrypt.compare(password, user.password, (err, matched)=>{
+
+            if(err) return err;
+
+
+            if(matched){
+
+                return done(null, user);
+
+            } else {
+
+                return done(null, false, { message: 'Incorrect password' });
+
+            }
+
+        });
+
+    });
+
+}));
+
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+
+
+
+// router.post('/login',function(req,res,next){
+//     passport.authenticate('local',{
+//        successRedirect:'/admin',
+//         failureRedirect:'/login',
+//         failureFlash:true
+//     })(req,res,next);
+// })
+
+router.post('/login', (req, res, next)=>{
+
+
+    passport.authenticate('local', {
+
+        successRedirect: '/admin',
+        failureRedirect: '/login',
+        failureFlash: true
+
+    })(req, res, next);
+
+});
+
+router.get('/logout',function(req,res){
+   req.logout();
+   res.redirect('/login');
+});
+
 router.get('/register',function(req,res){
     res.render('home/register');  //
 });
@@ -99,7 +193,7 @@ router.post('/register',function(req,res) {
 
                     });
                 });
-n
+
             }
 
             else{

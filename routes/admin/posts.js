@@ -3,7 +3,9 @@ const router = express.Router();
 const Post = require('../../models/Posts');
 const Category= require('../../models/Category');
 const{isEmpty} = require('../../helpers/upload-helpers');
-router.all('/*',function(req,res,next) {
+const{userAuthenticated} =require('../../helpers/authentication');
+
+router.all('/*',userAuthenticated,function(req,res,next) {
     req.app.locals.layout = "admin"; // resetting defaultlayout to be admin when this route is run
     next();
 });
