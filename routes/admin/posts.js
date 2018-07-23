@@ -19,6 +19,14 @@ router.get('/',function(req,res) {
     });
 
 });
+router.get('/my-posts',(req,res)=>{
+    Post.find({user:req.user.id})
+        .populate('category') // to gett well formatted category
+        .then(posts => {
+
+            res.render('admin/posts/my-posts', {posts: posts});
+        });
+});
 
 
 router.get('/edit/:id',function(req,res){
@@ -41,7 +49,7 @@ router.put('/edit/:id',function(req,res) {
             allowComments = false;
         }
 // set data coming from form to the data in the database
-      post.user=req.body.id;
+      post.user=req.user.id;
         post.title = req.body.title;
         post.status = req.body.status;
         post.allowComments = allowComments;
