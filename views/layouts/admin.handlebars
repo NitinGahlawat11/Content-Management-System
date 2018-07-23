@@ -14,6 +14,8 @@
     <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin.css" rel="stylesheet">
+    <link href="/css/bootstrap-switch.min.css" rel="stylesheet">
+
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -172,6 +174,7 @@
             </div>
         </div>
     </div>
+</div>
     <!-- Bootstrap core JavaScript-->
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
@@ -179,7 +182,13 @@
     <script src="/js/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin.min.js"></script>
-</div>
+    <script src="/js/bootstrap-switch.js"></script>
+
+    <script>
+
+        $("[name='approveComment']").bootstrapSwitch();
+
+</script>
 </body>
 
 </html>
