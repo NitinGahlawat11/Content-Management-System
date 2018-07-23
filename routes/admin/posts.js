@@ -5,7 +5,7 @@ const Category= require('../../models/Category');
 const{isEmpty} = require('../../helpers/upload-helpers');
 const{userAuthenticated} =require('../../helpers/authentication');
 
-router.all('/*',userAuthenticated,function(req,res,next) {
+router.all('/*',function(req,res,next) {
     req.app.locals.layout = "admin"; // resetting defaultlayout to be admin when this route is run
     next();
 });
@@ -41,6 +41,7 @@ router.put('/edit/:id',function(req,res) {
             allowComments = false;
         }
 // set data coming from form to the data in the database
+      post.user=req.body.id;
         post.title = req.body.title;
         post.status = req.body.status;
         post.allowComments = allowComments;
@@ -78,7 +79,29 @@ router.put('/edit/:id',function(req,res) {
 });
 
 router.delete("/:id",function(req,res){
-    Post.remove({_id: req.params.id}).then(result => {
+   Post.findOne({_id:req.params.id})
+
+
+.populate('comments')
+       .then(post=>{
+           if(!post.comments.length<1){ // for deleting comments along with the blog
+               post.comments.forEach(comment=>{
+                   comment.remove();
+               })
+           }
+
+   })
+
+
+
+
+
+
+
+
+
+
+    Post.remove().then(result => {
         req.flash('success_message','post was deleted');
         res.redirect('/admin/posts');
     });
@@ -123,7 +146,7 @@ router.post('/create', function (req, res) {
     }
 
     const newPost = new Post({
-
+user:req.user.id,
         title: req.body.title,
         status: req.body.status,
         allowComments: allowComments, // instead of passing values from from we pass them from above check becooz by default req.body.allowcomments is gonna return on instead of a boolean

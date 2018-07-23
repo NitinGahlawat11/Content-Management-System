@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema({
 
     user:{
-
+        type:Schema.Types.ObjectId,
+        ref:'users'
     },
     title:{
         type:String,
@@ -32,7 +33,11 @@ type:String,
     category:{
         type:Schema.Types.ObjectId,
         ref:'categories'
-    }
+    },
+    comments:[{
+        type:Schema.Types.ObjectId,
+        ref:'comments'
+    }]
 
-});
+},{usePushEach:true});
 module.exports=mongoose.model('posts',PostSchema);
