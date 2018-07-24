@@ -31,6 +31,7 @@ router.post('/',function(req,res) {
         post.comments.push(newComment);
         post.save().then(savedPost => {
             newComment.save().then(savedComment => {
+                req.flash('success_message',"Your comment has been submitted for review")
                 res.redirect(`/post/${post.id}`);
             })
         });
@@ -45,6 +46,14 @@ router.delete('/:id',function(req,res){
         res.redirect('/admin/comments');
     })
 })
+
+
+router.post('/approve-comment',function(req,res){
+  Comment.findByIdAndUpdate(req.body.id,{$set:{approveComment:req.body.approveComment}},function(err,result){
+      if(err) throw err;
+      res.send(result);
+    })
+});
 
 
 

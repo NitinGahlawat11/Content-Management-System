@@ -122,7 +122,7 @@ router.get('/register',function(req,res){
     res.render('home/register');  //
 });
 router.get('/post/:id',function (req,res){
-    Post.findOne({_id:req.params.id}).populate({path:'comments',populate:{path:'user',model:'users'}})
+    Post.findOne({_id:req.params.id}).populate({path:'comments',match:{approveComment:true},populate:{path:'user',model:'users'}})
         .populate('user')
         .then(post=>{
         Category.find({}).then(categories=> {
