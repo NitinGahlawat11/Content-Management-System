@@ -4,7 +4,7 @@
     <div class="col-md-8">
 
         <h1 class="my-4">Home page
-            <small>Secondary Text</small>
+
         </h1>
 
         <!-- Blog Post -->
@@ -19,8 +19,8 @@
                     <a href="/post/{{id}}" class="btn btn-primary">Read More &rarr;</a>
                 </div>
                 <div class="card-footer text-muted">
-                    {{date}} by
-                    <a href="#">Start Bootstrap</a>
+                    {{date}}
+                    <a href="#">{{post.user.firstName}}</a>
                 </div>
             </div>
         {{/each}}

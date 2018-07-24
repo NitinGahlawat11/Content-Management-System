@@ -12,14 +12,16 @@ router.all('/*',function(req,res,next){
 });
 
 router.get('/',function(req,res){
-   Post.find({}).then(posts => {
-       Category.find({}).then(categories=>{
-           res.render('home/index', {posts: posts,categories:categories});
-       })
+    Post.find({})
+        .populate('user')
+        .then(posts => {
+        Category.find({}).then(categories=>{
+            res.render('home/index', {posts: posts,categories:categories});
+        })
 
-      // res.render('home/index', {posts: posts});  //
-   });
-   });
+        // res.render('home/index', {posts: posts});  //
+    });
+});
 router.get('/about',function(req,res){
     res.render('home/about');  //
 });
